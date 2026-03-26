@@ -1,0 +1,21 @@
+module calculator #(parameter n=4)(
+	input signed [n-1:0] a,b,  // signed inputs
+	input [1:0] sel, 		//To select the operator
+	input clk, reset,		//clock and reset
+	output reg signed [2*n-1:0] out  // signed output
+);
+	always @(posedge clk) begin
+		if(reset) 
+			out<=0;
+		else begin
+		case(sel)
+			2'b00:out<=a+b;		//addition
+			2'b01:out<=a-b;		//subtraction
+			2'b10:out<=a*b;		//multiplication
+			2'b11:out<=(b!=0)?a/b:0;	//Division (handled safely)
+			default:out<=0;	
+		endcase
+		end
+	end
+	
+endmodule
